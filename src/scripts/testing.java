@@ -8,6 +8,7 @@ import org.openqa.selenium.interactions.Actions;
 
 import javax.swing.*;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -16,22 +17,28 @@ public class testing {
 
         System.setProperty("webdriver.chrome.driver", "/home/ttn/IdeaProjects/s_practice/new/chromedriver");
         WebDriver dr = new ChromeDriver();
-        dr.get("http://the-internet.herokuapp.com/windows");
+        dr.get("http://demo.guru99.com/test/web-table-element.php");
+        dr.manage().window().maximize();
+        dr.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
+       List<WebElement> ls = dr.findElements(By.xpath("//table[@class='dataTable']//tr"));
+        System.out.println("row count ="+ ls.size());
 
+        List<WebElement> ls2 = dr.findElements(By.xpath("//table[@class='dataTable']//th"));
+        System.out.println("row count ="+ ls2.size());
 
-        WebElement a =dr.findElement(By.xpath("//a[text()='Click Here']"));
-        WebElement b =dr.findElement(By.xpath("//a[text()='Elemental Selenium']"));
-        Actions ac =new Actions(dr);
-        ac.click(a).perform();
+        List<WebElement> ls3 = dr.findElements(By.xpath("//table[@class='dataTable']//td"));
+        System.out.println("row count ="+ ls3.size());
 
-        dr.switchTo().defaultContent();
-        ac.click(b).perform();
-        Set<String> st = dr.getWindowHandles();
-        Iterator<String> it = st.iterator();
-        String p= it.next();
-        String c= it.next();
-        String gc= it.next();
-        dr.close();
-
+        Iterator<WebElement> it = ls3.iterator();
+        int i=1;
+        while(it.hasNext()) {
+            System.out.print(it.next().getText());
+            System.out.print("\t");
+            if(i==ls2.size()){
+                System.out.println();
+                i=0;
+            }
+            i++;
+        }
     }
 }
